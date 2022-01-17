@@ -1,2 +1,2 @@
-# CSI25322-Laboratoire
+# CSI253-playground
 Repository for the labs of Database 1

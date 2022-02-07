@@ -10,33 +10,45 @@ Les professeurs peuvent enseigner le
 même cours sur plusieurs semestres et seule
 la plus récente doit être enregistrée.
 
-![screenshot_exercice1](assets/screenshot_exercice1.png)
+Request SQL:
 
-## Exercice 2
-Chaque professeur doit enseigner un
-cours.
+`CREATE TABLE professors(ssn integer, primary key (ssn));`
 
-![screenshot_exercice2](assets/screenshot_exercice2.png)
+`CREATE TABLE courses(courseid varchar(100), primary key(courseid));`
+
+`CREATE TABLE teaches(ssn integer, courseid varchar(100), semesterid varchar(100), primary key(ssn, courseid), foreign key (ssn) references professors, foreign key (courseid) references courses);`
+
+![screenshot_exercice1](assets/screenshot_exercice1_lab4.png)
 
 ## Exercice 3
 Chaque professeur enseigne exactement
 un cours (ni plus, ni moins).
 
-![screenshot_exercice3](assets/screenshot_exercice3.png)
+Request SQL:
 
-## Exercice 4
-Chaque professeur enseigne exactement
-un cours (ni plus, ni moins), et chaque cours
-doit être enseigné par un professeur.
+`CREATE TABLE professors(ssn integer, primary key (ssn));`
 
-![screenshot_exercice4](assets/screenshot_exercice4.png)
+`CREATE TABLE courses(courseid varchar(100), primary key(courseid));`
+
+`CREATE TABLE teaches(ssn integer, courseid varchar(100), semesterid varchar(100), primary key(ssn), foreign key (ssn) references professors, foreign key (courseid) references courses);`
+
+![screenshot_exercice3](assets/screenshot_exercice3_lab4.png)
+
 
 ## Exercice 5
 Les professeurs peuvent enseigner le
 même cours sur plusieurs semestres et
 chaque doit être enregistrée.
 
-![screenshot_exercice5](assets/screenshot_exercice5.png)
+Request SQL:
+
+`CREATE TABLE professors(ssn integer, primary key (ssn));`
+
+`CREATE TABLE courses(courseid varchar(100), primary key(courseid));`
+
+`CREATE TABLE teaches(ssn integer, courseid varchar(100), semesterid varchar(100), primary key(ssn, courseid, semesterid), foreign key (ssn) references professors, foreign key (courseid) references courses);`
+
+![screenshot_exercice5](assets/screenshot_exercice5_lab4.png)
 
 ## Exercice 6
 Supposons maintenant que certains cours
@@ -48,6 +60,18 @@ Modélisez cette situation en introduisant des
 ensembles d'entités et des ensembles de
 relations supplémentaires si nécessaire.
 
-![screenshot_exercice6](assets/screenshot_exercice6.png)
+Request SQL:
+
+`CREATE TABLE professors(ssn integer, primary key (ssn));`
+
+`CREATE TABLE courses(courseid varchar(100), primary key(courseid));`
+
+`CREATE TABLE groupes(groupid varchar(100), primary key (groupid));`
+
+`CREATE TABLE in(ssn integer, groupid varchar(100), primary key(ssn, groupid), foreign key (ssn) references professors, foreign key (groupid) references groupes);`
+
+`CREATE TABLE teaches(groupid integer, courseid varchar(100), semesterid varchar(100), primary key(groupid, courseid, semesterid), foreign key (groupid) references groupes, foreign key (courseid) references courses);`
+
+![screenshot_exercice6](assets/screenshot_exercice6_lab4.png)
 
 

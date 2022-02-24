@@ -3,7 +3,7 @@ Repository for the labs of Database 1
 
 Félix Larouche: 300144353
 
-# Laboratoire 3 : Systèmes universitaires
+# Laboratoire 4
 
 ## Exercice 1
 Les professeurs peuvent enseigner le

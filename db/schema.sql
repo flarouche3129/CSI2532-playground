@@ -1,29 +1,64 @@
-CREATE TABLE athletes (
-    id INTEGER PRIMARY KEY,
-    name VARCHAR(255) not null,
-    identified_gender CHAR(1),
-    dob DATE NOT NULL
+CREATE TABLE artists (
+                         name VARCHAR(20),
+                         birthplace VARCHAR(20),
+                         style VARCHAR(20),
+                         dateofbirth DATE,
+                         PRIMARY KEY (name)
 );
 
-INSERT INTO athletes (id, name, identified_gender, dob) VALUES
-    (1, 'Andrew', 'm', '1975-12-01'),
-    (2, 'Ayana', 'f', '1988-06-11'),
-    (3, 'Hayden', 'm', '1996-07-24'),
-    (4, 'August', 'm', '1999-09-09');
-
-CREATE TABLE schema_migrations (
-    migration varchar(255),
-    migrated_at time,
-    PRIMARY KEY (migration)
+CREATE TABLE customers (
+                           id INTEGER,
+                           name VARCHAR(20),
+                           address VARCHAR(20),
+                           amount numeric(8,2),
+                           PRIMARY KEY (id)
 );
 
-INSERT INTO schema_migrations (migration, migrated_at) VALUES
-    ('20220214173000-create-athletes.sql', '2022-02-14 17:30:00');
+CREATE TABLE artworks (
+                          title VARCHAR(20),
+                          year INTEGER,
+                          type VARCHAR(20),
+                          price numeric(8,2),
+                          artist_name VARCHAR(20),
+                          PRIMARY KEY (title),
+                          FOREIGN KEY(artist_name) REFERENCES artists(name)
+);
 
-INSERT INTO schema_migrations (migration, migrated_at) VALUES
-    ('20220214175003-create-migrations.sql', '2022-02-14 17:50:03');
+CREATE TABLE likeartists (
+                             customer_id INTEGER,
+                             artist_name VARCHAR(20),
+                             PRIMARY KEY(artist_name, customer_id),
+                             FOREIGN KEY (artist_name) REFERENCES artists(name),
+                             FOREIGN KEY (customer_id) REFERENCES customers(id)
+);
 
-ALTER TABLE athletes RENAME COLUMN identified_gender TO gender;
+UPDATE customers
+SET amount = 9.8
+WHERE address = 'Gatineau';
 
-INSERT INTO schema_migrations (migration, migrated_at) VALUES
-    ('20220214175816-update-athletes.sql', '2022-02-14 17:58:16');
+DELETE
+FROM customers
+WHERE name = 'John';
+
+ALTER TABLE artists
+    ADD COLUMN country varchar(100);
+
+ALTER TABLE customers
+    ADD COLUMN rating integer CHECK (rating between 1 and 10);
+
+DELETE
+FROM artworks
+WHERE artist_name = 'Smith';
+DELETE
+FROM artists
+WHERE name = 'Smith';
+
+BEGIN;
+ALTER TABLE artworks
+    DROP CONSTRAINT artworks_artist_name_fkey;
+ALTER TABLE artworks
+    ADD CONSTRAINT artworks_artist_name_fkey
+        FOREIGN KEY (artist_name) REFERENCES artists(name)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE;
+COMMIT;
